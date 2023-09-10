@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Document\Database\factories\DocumentFactory;
+use Modules\Document\Entities\DocumentType;
 
 class Document extends Model
 {
@@ -24,6 +25,11 @@ class Document extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function document_type()
+    {
+        return $this->belongsTo(DocumentType::class);
     }
 
     protected static function newFactory()
