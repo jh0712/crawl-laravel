@@ -1,20 +1,21 @@
 <?php
 
-namespace Modules\Crawl\Providers;
+namespace $NAMESPACE$;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Factory;
 
-class CrawlServiceProvider extends ServiceProvider
+class $CLASS$ extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'Crawl';
+    protected $moduleName = '$MODULE$';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'crawl';
+    protected $moduleNameLower = '$LOWER_NAME$';
 
     /**
      * Boot the application events.
@@ -26,7 +27,7 @@ class CrawlServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->loadMigrationsFrom(module_path($this->moduleName, '$MIGRATIONS_PATH$'));
     }
 
     /**
@@ -47,10 +48,10 @@ class CrawlServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
+            module_path($this->moduleName, '$PATH_CONFIG$/config.php') => config_path($this->moduleNameLower . '.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+            module_path($this->moduleName, '$PATH_CONFIG$/config.php'), $this->moduleNameLower
         );
     }
 
@@ -63,7 +64,7 @@ class CrawlServiceProvider extends ServiceProvider
     {
         $viewPath = resource_path('views/modules/' . $this->moduleNameLower);
 
-        $sourcePath = module_path($this->moduleName, 'Resources/views');
+        $sourcePath = module_path($this->moduleName, '$PATH_VIEWS$');
 
         $this->publishes([
             $sourcePath => $viewPath
@@ -85,8 +86,8 @@ class CrawlServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
             $this->loadJsonTranslationsFrom($langPath);
         } else {
-            $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
-            $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'Resources/lang'));
+            $this->loadTranslationsFrom(module_path($this->moduleName, '$PATH_LANG$'), $this->moduleNameLower);
+            $this->loadJsonTranslationsFrom(module_path($this->moduleName, '$PATH_LANG$'));
         }
     }
 
