@@ -2,21 +2,18 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Traits\HasSeeder;
 use Illuminate\Database\Seeder;
+use Modules\Document\Database\Seeders\CreateDocumentTypeSeedTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-        // \App\Models\User::factory(10)->create();
+    use HasSeeder;
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+    protected function getSeeders()
+    {
+        return [
+            CreateDocumentTypeSeedTableSeeder::class
+        ];
     }
 }
