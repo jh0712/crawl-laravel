@@ -87,7 +87,7 @@ class CrawlRepository extends Repository implements CrawlContract
         ];
         $this->documentRepo->createData($documentData);
 
-        return ['status' => true, 'message' => 'crawl success'];
+        return ['status' => true, 'message' => 'crawl success', 'crawled_data' => $crawled_data];
     }
 
     public function getCreateCrawlData($url)

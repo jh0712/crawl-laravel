@@ -5,16 +5,26 @@ namespace Modules\Document\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Document\Contracts\DocumentContract;
 
 class DocumentController extends Controller
 {
+    public function __construct(
+        DocumentContract $documentRepo
+    ) {
+        $this->documentRepo = $documentRepo;
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index($id)
     {
-        return view('document::index');
+        $file       = $this->documentRepo->find($id, ['document_type']);
+        $path       = $this->documentRepo->getDocumentTypePath($file->document_type->name);
+        $pathToFile = '/' . $path . $file['filename'];
+        return response()->download(realpath(base_path('storage')) . $pathToFile, $file['original_filename']);
     }
 
     /**
@@ -33,7 +43,6 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**
@@ -64,7 +73,6 @@ class DocumentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
     /**
@@ -74,6 +82,5 @@ class DocumentController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }

@@ -10,7 +10,7 @@ export default function Success({auth,crawledResult}) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Crawl Success Page</h2>}
         >
-            <Head title="Profile" />
+            <Head title="Crawl Success Page" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">

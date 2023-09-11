@@ -67,8 +67,8 @@ class CrawlController extends Controller
             Log::info($e);
             return redirect()->back()->with('error_message', 'failed crawl please try again');
         }
-        return redirect()->back()->with('success_message', 'successfully created');
-//        return Redirect::route('crawl-management.create');
+//        return redirect()->back()->with('success_message', 'successfully created');
+        return redirect()->route('crawl-management.crawled_result_id.success', $result['crawled_data']->id);
     }
     public function success($id){
         $crawledResult = $this->crawlRepo->find($id,['documents']);

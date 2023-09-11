@@ -29,6 +29,7 @@ export default function EditForm({error_message =null ,success_message=null,craw
 
         post(route('crawl-management.edit'));
     };
+    const imageUrl = route('document-management.document_id.index',crawledResult.documents.id);
 
     return (
         <section>
@@ -57,6 +58,9 @@ export default function EditForm({error_message =null ,success_message=null,craw
                 </Transition>
             }
             <form onSubmit={submit} className="mt-6 space-y-6">
+                <h1>Screenshot</h1>
+                <img src={imageUrl} alt=""/>
+                <h1>連結：<a href={data.url} target="_blank" title={data.title}>{data.title}</a></h1>
                 <div>
                     <InputLabel htmlFor="title" value="title" />
                     <TextInput
@@ -86,6 +90,21 @@ export default function EditForm({error_message =null ,success_message=null,craw
                     />
 
                     <InputError className="mt-2" message={errors.url} />
+                </div>
+                <div>
+                    <InputLabel htmlFor="description" value="description" />
+                    <TextInput
+                        id="description"
+                        name="description"
+                        value={data.description}
+                        className="mt-1 block w-full"
+                        autoComplete="description"
+                        isFocused={true}
+                        onChange={(e) => setData('description', e.target.value)}
+                        {...(type === 'success' ? { disabled: true } : {})}
+                    />
+
+                    <InputError className="mt-2" message={errors.description} />
                 </div>
                 <div>
                     <InputLabel htmlFor="created_at" value="created_at" />

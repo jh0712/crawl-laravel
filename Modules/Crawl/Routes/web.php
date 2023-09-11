@@ -13,7 +13,6 @@
 use Modules\Crawl\Http\Controllers\CrawlController;
 
 Route::group(['middleware' => ['web', 'auth']], function () {
-    // Payment Notify
     Route::group([
         'prefix' => 'crawl-management',
         'as'     => 'crawl-management.',

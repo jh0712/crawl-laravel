@@ -10,7 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::prefix('document')->group(function() {
-    Route::get('/', 'DocumentController@index');
+use Modules\Document\Http\Controllers\DocumentController;
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::group([
+        'prefix' => 'document-management',
+        'as'     => 'document-management.',
+    ], function () {
+        Route::group([
+            'prefix' => '{document_id}',
+            'as'     => 'document_id.',
+        ], function () {
+            // document-management/document_id/
+            // document-management.document_id.index
+            Route::get('/', [DocumentController::class, 'index'])->name('index');
+        });
+    });
 });
