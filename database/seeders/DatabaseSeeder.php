@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
     protected function getSeeders()
     {
         return [
-            CreateDocumentTypeSeedTableSeeder::class
+            CreateDocumentTypeSeedTableSeeder::class,
+            CreateAdminUser::class
         ];
     }
 }
