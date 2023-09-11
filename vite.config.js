@@ -8,6 +8,14 @@ export default defineConfig({
             input: 'resources/js/app.jsx',
             refresh: true,
         }),
+
         react(),
     ],
+    server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: 'localhost',
+        }
+
+    },
 });
