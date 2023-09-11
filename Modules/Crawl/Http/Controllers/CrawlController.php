@@ -38,6 +38,10 @@ class CrawlController extends Controller
     public function store(Request $request)
     {
         // store action
+        $request->validate([
+            'url_path' => ['required', 'active_url'],
+        ]);
+        dd(44);
     }
 
     /**

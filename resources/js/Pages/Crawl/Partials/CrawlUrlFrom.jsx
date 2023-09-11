@@ -1,18 +1,23 @@
+import { useEffect } from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
-export default function CrawlUrlForm({ className = '' }) {
+export default function CrawlUrlForm() {
 
     const user = usePage().props.auth.user;
 
-    const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
-        name: user.name,
-        email: user.email
+    const { data, setData, post, errors, processing, recentlySuccessful,reset } = useForm({
+        url_path: ''
     });
 
+    useEffect(() => {
+        return () => {
+            reset('url_path');
+        };
+    }, []);
     const submit = (e) => {
         e.preventDefault();
 
@@ -20,7 +25,7 @@ export default function CrawlUrlForm({ className = '' }) {
     };
 
     return (
-        <section className={className}>
+        <section>
             <header>
                 <h2 className="text-lg font-medium text-gray-900">Crawl by Url</h2>
 
@@ -35,12 +40,14 @@ export default function CrawlUrlForm({ className = '' }) {
 
                     <TextInput
                         id="url_path"
+                        name="url_path"
+                        value={data.url_path}
                         className="mt-1 block w-full"
+                        autoComplete="url_path"
+                        isFocused={true}
                         onChange={(e) => setData('url_path', e.target.value)}
                         required
-                        isFocused
-                        autoComplete="url_path"
-                        defaultValue='https://google.com'
+                        placeholder={'https://google.ocm'}
                     />
 
                     <InputError className="mt-2" message={errors.url_path} />
