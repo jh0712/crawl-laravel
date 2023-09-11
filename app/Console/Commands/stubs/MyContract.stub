@@ -1,0 +1,11 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use App\Contracts\CrudContract;
+use App\Contracts\SlugContract;
+
+interface $MODEL_NAME$Contract extends CrudContract, SlugContract
+{
+
+}
