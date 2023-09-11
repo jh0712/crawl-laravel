@@ -65,11 +65,16 @@ class CrawlController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             Log::info($e);
-            dd($e);
             return redirect()->back()->with('error_message', 'failed crawl please try again');
         }
         return redirect()->back()->with('success_message', 'successfully created');
 //        return Redirect::route('crawl-management.create');
+    }
+    public function success($id){
+        $crawledResult = $this->crawlRepo->find($id,['documents']);
+        return Inertia::render('Crawl/Success', [
+            'crawledResult' => $crawledResult // 傳遞CrawledResult模型的資料給Inertia頁面
+        ]);
     }
 
     /**

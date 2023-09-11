@@ -31,6 +31,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
             'prefix' => '{crawled_result_id}',
             'as'     => 'crawled_result_id.',
         ], function () {
+            // crawl-management/crawled_result_id/success
+            // crawl-management.crawled_result_id.success
+            Route::get('/success', [CrawlController::class, 'success'])->name('success');
             // crawl-management/crawled_result_id
             // crawl-management.crawled_result_id.edit
             Route::get('/', [CrawlController::class, 'edit'])->name('edit');

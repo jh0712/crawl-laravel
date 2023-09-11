@@ -3,6 +3,7 @@
 namespace Modules\Crawl\Entities;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Crawl\Database\factories\CrawledResultFactory;
@@ -19,7 +20,13 @@ class CrawledResult extends Model
         'url',
         'description',
         'body',
+        'created_at',
+        'updated_at'
     ];
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d h:i:s',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -33,4 +40,5 @@ class CrawledResult extends Model
     {
         return CrawledResultFactory::new();
     }
+
 }
