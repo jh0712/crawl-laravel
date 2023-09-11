@@ -24,6 +24,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         // crawl-management/create
         // crawl-management.create
         Route::get('/create', [CrawlController::class, 'create'])->name('create');
+        // crawl-management/store
+        // crawl-management.store
+        Route::post('/store', [CrawlController::class, 'store'])->name('store');
         Route::group([
             'prefix' => '{crawled_result_id}',
             'as'     => 'crawled_result_id.',
