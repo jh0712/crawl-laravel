@@ -1,5 +1,10 @@
 <?php
+use Modules\Crawl\Contracts\CrawlContract;
+use Modules\Crawl\Repositories\CrawlRepository;
 
 return [
-    'name' => 'Crawl'
+    'name'     => 'Crawl',
+    'bindings' => [
+        CrawlContract::class => CrawlRepository::class,
+    ],
 ];

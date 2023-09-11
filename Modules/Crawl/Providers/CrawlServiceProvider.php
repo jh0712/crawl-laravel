@@ -27,6 +27,13 @@ class CrawlServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        $this->registerBindings();
+    }
+    public function registerBindings()
+    {
+        foreach (config('crawl.bindings') as $key => $binding) {
+            $this->app->bind($key, $binding);
+        }
     }
 
     /**

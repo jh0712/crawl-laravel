@@ -2,14 +2,26 @@
 
 namespace Modules\Crawl\Http\Controllers;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Mockery\Exception;
+use Modules\Crawl\Contracts\CrawlContract;
+use Modules\Crawl\Repositories\CrawlRepository;
 
 class CrawlController extends Controller
 {
+
+    public function __construct(
+        CrawlContract $crawlRepo
+    )
+    {
+        $this->crawlRepo = $crawlRepo;
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -27,7 +39,10 @@ class CrawlController extends Controller
     public function create()
     {
         // create page
-        return Inertia::render('Crawl/Create', []);
+        return Inertia::render('Crawl/Create', [
+            'error_message'   => session('error_message')??null,
+            'success_message' => session('success_message')??null
+        ]);
     }
 
     /**
@@ -41,7 +56,16 @@ class CrawlController extends Controller
         $request->validate([
             'url_path' => ['required', 'active_url'],
         ]);
-        dd(44);
+        DB::beginTransaction();
+        try {
+            $this->crawlRepo->crawlData($request->all());
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error_message', 'failed crawl please try again');
+        }
+        return redirect()->back()->with('success_message', 'successfully created');
+//        return Redirect::route('crawl-management.create');
     }
 
     /**
@@ -76,5 +100,4 @@ class CrawlController extends Controller
     {
         // update action
     }
-
 }

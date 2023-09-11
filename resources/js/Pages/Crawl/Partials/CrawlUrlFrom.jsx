@@ -5,7 +5,8 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
-export default function CrawlUrlForm() {
+
+export default function CrawlUrlForm({error_message,success_message}) {
 
     const user = usePage().props.auth.user;
 
@@ -33,6 +34,30 @@ export default function CrawlUrlForm() {
                     Input a url path what you want
                 </p>
             </header>
+            {
+                error_message &&
+                <Transition
+                    show={recentlySuccessful}
+                    enter="transition ease-in-out"
+                    enterFrom="opacity-0"
+                    leave="transition ease-in-out"
+                    leaveTo="opacity-0"
+                >
+                    <div className="mb-4 font-medium text-sm text-red-600">{error_message}</div>
+                </Transition>
+            }
+            {
+                success_message &&
+                <Transition
+                    show={recentlySuccessful}
+                    enter="transition ease-in-out"
+                    enterFrom="opacity-0"
+                    leave="transition ease-in-out"
+                    leaveTo="opacity-0"
+                >
+                    <div className="mb-4 font-medium text-sm text-green-600">{success_message}</div>
+                </Transition>
+            }
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
@@ -54,16 +79,6 @@ export default function CrawlUrlForm() {
                 </div>
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing}>Search</PrimaryButton>
-
-                    <Transition
-                        show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
-                        leaveTo="opacity-0"
-                    >
-                        <p className="text-sm text-gray-600">search done.</p>
-                    </Transition>
                 </div>
             </form>
         </section>
