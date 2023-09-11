@@ -20,6 +20,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         // crawl-management/crawl
         // crawl-management.index
         Route::get('/crawl', [CrawlController::class, 'index'])->name('index');
+        // crawl-management/getDatatable
+        // crawl-management.getDatatable
+        Route::get('/getDatatable', [CrawlController::class, 'getDatatable'])->name('getDatatable');
         // crawl-management/create
         // crawl-management.create
         Route::get('/create', [CrawlController::class, 'create'])->name('create');

@@ -43,9 +43,19 @@ class CrawlRepository extends Repository implements CrawlContract
         parent::__construct($model);
     }
 
-    public function getData($user_id = null)
+    public function getAllData($user_id = null)
     {
-        $query = $this->model->select('')->where('');
+        $query = $this->model
+            ->select(
+                'id',
+                'title',
+                'url',
+                'description',
+                'created_at'
+            );
+        if ($user_id) {
+            $query = $query->where('user_id', $user_id);
+        }
         return $query;
     }
 
