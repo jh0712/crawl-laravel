@@ -6,19 +6,17 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Mockery\Exception;
 use Modules\Crawl\Contracts\CrawlContract;
-use Modules\Crawl\Repositories\CrawlRepository;
+use mysql_xdevapi\Exception;
 
 class CrawlController extends Controller
 {
-
     public function __construct(
         CrawlContract $crawlRepo
-    )
-    {
+    ) {
         $this->crawlRepo = $crawlRepo;
     }
 
@@ -40,8 +38,8 @@ class CrawlController extends Controller
     {
         // create page
         return Inertia::render('Crawl/Create', [
-            'error_message'   => session('error_message')??null,
-            'success_message' => session('success_message')??null
+            'error_message'   => session('error_message') ?? null,
+            'success_message' => session('success_message') ?? null
         ]);
     }
 
@@ -62,6 +60,7 @@ class CrawlController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
+            Log::info($e);
             return redirect()->back()->with('error_message', 'failed crawl please try again');
         }
         return redirect()->back()->with('success_message', 'successfully created');
