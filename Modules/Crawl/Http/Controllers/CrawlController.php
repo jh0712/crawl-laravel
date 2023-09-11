@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Modules\Crawl\Contracts\CrawlContract;
 
@@ -31,7 +30,9 @@ class CrawlController extends Controller
     public function index()
     {
         // datatable page
-        return Inertia::render('Crawl/Index', []);
+        return Inertia::render('Crawl/Index', [
+            'datatable_url' => route('crawl-management.getDatatable')
+        ]);
     }
 
     public function getDatatable(Request $request)
@@ -44,11 +45,16 @@ class CrawlController extends Controller
         );
         $orderByData = $this->getQueryOrderBy($allResults);
 
-        $dataTable = datatables()->of($allResults);
+        $dataTable = datatables()->of($allResults)
+        ->editColumn('action', function ($result) {
+            return "<a href='" . route('crawl-management.crawled_result_id.edit', $result->id) . "' class='button'>
+                        Edit
+                    </a>";
+        });
 
         $dataTable->with($orderByData);
 
-        return $dataTable->make(true);
+        return $dataTable->rawColumns(['action'])->make(true);
     }
 
     /**
@@ -120,6 +126,9 @@ class CrawlController extends Controller
     {
         // show data information can edit
         $crawledResult = $this->crawlRepo->find($id, ['documents']);
+        if(!$crawledResult){
+            return redirect()->back()->with('error_message', 'no record found');
+        }
         return Inertia::render('Crawl/Edit', [
             'crawledResult'   => $crawledResult,
             'error_message'   => session('error_message') ?? null,

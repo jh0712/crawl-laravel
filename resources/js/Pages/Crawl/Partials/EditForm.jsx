@@ -29,7 +29,7 @@ export default function EditForm({error_message =null ,success_message=null,craw
 
         put(route('crawl-management.crawled_result_id.update',crawledResult.id));
     };
-    const imageUrl = route('document-management.document_id.index',crawledResult.documents.id);
+    const imageUrl = crawledResult.documents?route('document-management.document_id.index',crawledResult.documents.id):null;
 
     return (
         <section>
@@ -135,7 +135,7 @@ export default function EditForm({error_message =null ,success_message=null,craw
                             isFocused={true}
                             onChange={(e) => setData('body', e.target.value)}
                             {...(type === 'success' ? { disabled: true } : {})}
-                            rows={50}
+                            rows={15}
                             type='textarea '
                         />
                         <InputError className="mt-2" message={errors.body} />

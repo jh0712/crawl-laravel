@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "chromium": "^3.0.3",
+        "datatables.net-dt": "^1.13.6",
         "puppeteer": "^9.1.1",
         "react-table": "^7.8.0"
     }
