@@ -2,6 +2,8 @@
 
 namespace Modules\Crawl\Http\Controllers;
 
+use App\Traits\FilterDropdown;
+use App\Traits\UnionCombineQuery;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -13,6 +15,9 @@ use Modules\Crawl\Contracts\CrawlContract;
 
 class CrawlController extends Controller
 {
+    use UnionCombineQuery;
+    use FilterDropdown;
+
     public function __construct(
         CrawlContract $crawlRepo
     ) {
@@ -27,6 +32,23 @@ class CrawlController extends Controller
     {
         // datatable page
         return Inertia::render('Crawl/Index', []);
+    }
+
+    public function getDatatable(Request $request)
+    {
+        // user deposit index for admin
+        $query      = $this->crawlRepo->getAllData(auth()->user()->id);
+        $allResults = $this->datatableAdvanceFilterSearch(
+            $request,
+            $this->getAdvanceCombineQueryData($query)
+        );
+        $orderByData = $this->getQueryOrderBy($allResults);
+
+        $dataTable = datatables()->of($allResults);
+
+        $dataTable->with($orderByData);
+
+        return $dataTable->make(true);
     }
 
     /**
