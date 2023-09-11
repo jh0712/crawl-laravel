@@ -11,7 +11,7 @@ export default function EditForm({error_message =null ,success_message=null,craw
 
     const user = usePage().props.auth.user;
 
-    const { data, setData, post, errors, processing, recentlySuccessful,reset } = useForm({
+    const { data, setData, put, errors, processing, recentlySuccessful,reset } = useForm({
         title:crawledResult.title,
         description:crawledResult.description,
         body:crawledResult.body,
@@ -27,7 +27,7 @@ export default function EditForm({error_message =null ,success_message=null,craw
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('crawl-management.edit'));
+        put(route('crawl-management.crawled_result_id.update',crawledResult.id));
     };
     const imageUrl = route('document-management.document_id.index',crawledResult.documents.id);
 
@@ -86,7 +86,7 @@ export default function EditForm({error_message =null ,success_message=null,craw
                         autoComplete="url"
                         isFocused={true}
                         onChange={(e) => setData('url', e.target.value)}
-                        {...(type === 'success' ? { disabled: true } : {})}
+                        disabled={true}
                     />
 
                     <InputError className="mt-2" message={errors.url} />
@@ -116,7 +116,7 @@ export default function EditForm({error_message =null ,success_message=null,craw
                         autoComplete="created_at"
                         isFocused={true}
                         onChange={(e) => setData('created_at', e.target.value)}
-                        {...(type === 'success' ? { disabled: true } : {})}
+                        disabled={true}
                         rows={50}
                     />
 
@@ -134,11 +134,17 @@ export default function EditForm({error_message =null ,success_message=null,craw
                             autoComplete="body"
                             isFocused={true}
                             onChange={(e) => setData('body', e.target.value)}
-                            disabled={true}
+                            {...(type === 'success' ? { disabled: true } : {})}
                             rows={50}
                             type='textarea '
                         />
                         <InputError className="mt-2" message={errors.body} />
+                    </div>
+                }
+                {
+                    type =='edit' &&
+                    <div className="flex items-center gap-4">
+                        <PrimaryButton disabled={processing}>Update</PrimaryButton>
                     </div>
                 }
 

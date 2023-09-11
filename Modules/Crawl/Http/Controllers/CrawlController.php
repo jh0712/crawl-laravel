@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Modules\Crawl\Contracts\CrawlContract;
-use mysql_xdevapi\Exception;
 
 class CrawlController extends Controller
 {
@@ -57,7 +56,7 @@ class CrawlController extends Controller
         DB::beginTransaction();
         try {
             $result = $this->crawlRepo->crawlByUrl($request->url_path);
-            if(!$result['status']){
+            if (!$result['status']) {
                 DB::rollback();
                 return redirect()->back()->with('error_message', $result['message']);
             }
@@ -67,11 +66,13 @@ class CrawlController extends Controller
             Log::info($e);
             return redirect()->back()->with('error_message', 'failed crawl please try again');
         }
-//        return redirect()->back()->with('success_message', 'successfully created');
+        //return redirect()->back()->with('success_message', 'successfully created');
         return redirect()->route('crawl-management.crawled_result_id.success', $result['crawled_data']->id);
     }
-    public function success($id){
-        $crawledResult = $this->crawlRepo->find($id,['documents']);
+
+    public function success($id)
+    {
+        $crawledResult = $this->crawlRepo->find($id, ['documents']);
         return Inertia::render('Crawl/Success', [
             'crawledResult' => $crawledResult // 傳遞CrawledResult模型的資料給Inertia頁面
         ]);
@@ -96,7 +97,12 @@ class CrawlController extends Controller
     public function edit($id)
     {
         // show data information can edit
-        return Inertia::render('Crawl/Edit', []);
+        $crawledResult = $this->crawlRepo->find($id, ['documents']);
+        return Inertia::render('Crawl/Edit', [
+            'crawledResult'   => $crawledResult,
+            'error_message'   => session('error_message') ?? null,
+            'success_message' => session('success_message') ?? null
+        ]);
     }
 
     /**
@@ -108,5 +114,16 @@ class CrawlController extends Controller
     public function update(Request $request, $id)
     {
         // update action
+        DB::beginTransaction();
+        try {
+            $result = $this->crawlRepo->updateData($id, $request->only(['title', 'description', 'body']));
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::info($e);
+            return redirect()->back()->with('error_message', 'failed crawl please try again');
+        }
+        return redirect()->back()->with('success_message', 'successfully updated');
+        //return redirect()->route('crawl-management.crawled_result_id.success', $result['crawled_data']->id);
     }
 }

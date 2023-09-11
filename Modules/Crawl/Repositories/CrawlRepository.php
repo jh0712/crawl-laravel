@@ -79,7 +79,7 @@ class CrawlRepository extends Repository implements CrawlContract
         $documentData = [
             'filename'          => $screenShotResult['file_name'],
             'application_type'  => CrawledResult::class,
-            'original_filename' => $crawl_result['title'],
+            'original_filename' => $crawl_result['title'] . '.jpeg',
             'application_id'    => $crawled_data->id,
             'document_type_id'  => $this->documentType->where('name', DocumentType::CREWLED_RESULT)->first()->id,
             'user_id'           => $user_id,
@@ -124,5 +124,10 @@ class CrawlRepository extends Repository implements CrawlContract
             return ['status' => true, 'file_name' => $file_name];
         }
         return ['status' => false, 'file_name' => $file_name];
+    }
+
+    public function updateData($id, $array)
+    {
+        return $this->edit($id, $array);
     }
 }

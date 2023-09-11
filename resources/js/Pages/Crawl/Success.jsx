@@ -1,7 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm";
-import CrawlUrlForm from "@/Pages/Crawl/Partials/CrawlUrlFrom";
 import EditForm from "@/Pages/Crawl/Partials/EditForm";
 
 export default function Success({auth,crawledResult}) {
