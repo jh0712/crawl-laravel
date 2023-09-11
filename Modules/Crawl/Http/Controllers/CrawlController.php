@@ -2,9 +2,11 @@
 
 namespace Modules\Crawl\Http\Controllers;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Inertia\Inertia;
 
 class CrawlController extends Controller
 {
@@ -14,7 +16,8 @@ class CrawlController extends Controller
      */
     public function index()
     {
-        return view('crawl::index');
+        // datatable page
+        return Inertia::render('Crawl/Index', []);
     }
 
     /**
@@ -23,7 +26,8 @@ class CrawlController extends Controller
      */
     public function create()
     {
-        return view('crawl::create');
+        // create page
+        return Inertia::render('Crawl/Create', []);
     }
 
     /**
@@ -33,7 +37,7 @@ class CrawlController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // store action
     }
 
     /**
@@ -43,6 +47,7 @@ class CrawlController extends Controller
      */
     public function show($id)
     {
+        // show data information can not edit
         return view('crawl::show');
     }
 
@@ -53,7 +58,8 @@ class CrawlController extends Controller
      */
     public function edit($id)
     {
-        return view('crawl::edit');
+        // show data information can edit
+        return Inertia::render('Crawl/Edit', []);
     }
 
     /**
@@ -64,16 +70,7 @@ class CrawlController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // update action
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
