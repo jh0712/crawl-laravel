@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('title')->nullable();
             $table->string('url')->nullable();
             $table->text('description')->nullable();
-            $table->text('body')->nullable();
+            $table->longText('body')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
