@@ -59,5 +59,5 @@ class CrawlRepository extends Repository implements CrawlContract
         ];
         return $this->model->create($data);
     }
-    
+
 }
