@@ -78,7 +78,7 @@ export default function CrawlUrlForm({error_message,success_message}) {
                     <InputError className="mt-2" message={errors.url_path} />
                 </div>
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Search</PrimaryButton>
+                    <PrimaryButton disabled={processing}>Crawl Go</PrimaryButton>
                 </div>
             </form>
         </section>

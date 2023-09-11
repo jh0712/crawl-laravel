@@ -56,11 +56,16 @@ class CrawlController extends Controller
         ]);
         DB::beginTransaction();
         try {
-            $this->crawlRepo->crawlData($request->all());
+            $result = $this->crawlRepo->crawlByUrl($request->url_path);
+            if(!$result['status']){
+                DB::rollback();
+                return redirect()->back()->with('error_message', $result['message']);
+            }
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             Log::info($e);
+            dd($e);
             return redirect()->back()->with('error_message', 'failed crawl please try again');
         }
         return redirect()->back()->with('success_message', 'successfully created');

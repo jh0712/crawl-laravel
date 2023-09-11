@@ -9,5 +9,5 @@ interface CrawlContract extends CrudContract, SlugContract
 {
     public function getData($user_id = null);
 
-    public function crawlData($array, $user_id = null);
+    public function crawlByUrl($url_path, $user_id = null);
 }
