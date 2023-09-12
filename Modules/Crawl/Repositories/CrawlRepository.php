@@ -113,6 +113,7 @@ class CrawlRepository extends Repository implements CrawlContract
         $body             = $crawler->filter('body');
         $body_text        = $body->count()?$body->text():null;
         return [
+            'status'      => true,
             'title'       => $title_text,
             'description' => $description_text,
             'body'        => $body_text,
