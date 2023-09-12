@@ -130,7 +130,7 @@ class CrawlController extends Controller
     {
         // show data information can edit
         $crawledResult = $this->crawlRepo->getModel()
-            ->where('id', $id)->where('user_id', auth()->user()->id)->first();
+            ->where('id', $id)->where('user_id', auth()->user()->id)->with('documents')->first();
         if (!$crawledResult) {
             return redirect()->back()->with('error_message', 'no record found');
         }
