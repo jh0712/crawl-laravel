@@ -33,9 +33,9 @@
 - Crawl Function can do two things
 	- Get url content
 	- Screenshot
-> Route Path        : \\crawl-laravel\\Modules\\Crawl\\Routes\\web.php
-> Controller Path : \\crawl-laravel\\Modules\\Crawl\\Http\\Controllers\\CrawlController.php
-> View Path         :  \\crawl-laravel\\resources\\js\\Pages\\Crawl\\
+> Route Path      : \\crawl-laravel\\Modules\\Crawl\\Routes\\web.php <br>
+> Controller Path : \\crawl-laravel\\Modules\\Crawl\\Http\\Controllers\\CrawlController.php <br>
+> View Path       :  \\crawl-laravel\\resources\\js\\Pages\\Crawl\\
 ## Install
 ```
 # laravel 
