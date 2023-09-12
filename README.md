@@ -23,6 +23,7 @@
 		- Can filter all column ( id, title, description, created at)
 		- Can pagination 
 		- Can choose how many row you want to show ( 10, 20, 30, 40, 50 )
+		- Can sort each column
 	- Crawl Search Page ( create / store )
 	- Crawl Success Page ( show )
 		- Show screenshot, title, url, description, created_at
