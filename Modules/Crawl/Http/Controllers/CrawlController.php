@@ -95,19 +95,7 @@ class CrawlController extends Controller
             return redirect()->back()->with('error_message', 'failed crawl please try again');
         }
         //return redirect()->back()->with('success_message', 'successfully created');
-        return redirect()->route('crawl-management.crawled_result_id.success', $result['crawled_data']->id);
-    }
-
-    public function success($id)
-    {
-        $crawledResult = $this->crawlRepo->getModel()
-            ->where('id', $id)->where('user_id', auth()->user()->id)->with('documents')->first();
-        if (!$crawledResult) {
-            return redirect()->back()->with('error_message', 'no record found');
-        }
-        return Inertia::render('Crawl/Success', [
-            'crawledResult' => $crawledResult // 傳遞CrawledResult模型的資料給Inertia頁面
-        ]);
+        return redirect()->route('crawl-management.crawled_result_id.show', $result['crawled_data']->id);
     }
 
     /**
@@ -117,8 +105,14 @@ class CrawlController extends Controller
      */
     public function show($id)
     {
-        // show data information can not edit
-        return view('crawl::show');
+        $crawledResult = $this->crawlRepo->getModel()
+            ->where('id', $id)->where('user_id', auth()->user()->id)->with('documents')->first();
+        if (!$crawledResult) {
+            return redirect()->back()->with('error_message', 'no record found');
+        }
+        return Inertia::render('Crawl/Success', [
+            'crawledResult' => $crawledResult // 傳遞CrawledResult模型的資料給Inertia頁面
+        ]);
     }
 
     /**
