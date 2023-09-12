@@ -80,12 +80,11 @@ function CrawlDataTable({datatable_url}) {
 
     const { globalFilter, pageIndex, pageSize,sortBy  } = state;
     return (
-
         <div className="py-12">
-
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div className="mb-4">
                     <select
+                        className="mb-2 border rounded"
                         value={pageSize}
                         onChange={(e) => {
                             setPageSize(Number(e.target.value));
@@ -93,56 +92,63 @@ function CrawlDataTable({datatable_url}) {
                     >
                         {[10, 20, 30, 40, 50].map((pageSize) => (
                             <option key={pageSize} value={pageSize}>
-                                顯示 {pageSize} 筆
+                                show {pageSize}
                             </option>
                         ))}
                     </select>
                     <span className="spacer"></span>
-                    {/* 全局搜尋輸入框 */}
                     <input
                         type="text"
                         className="mb-2 p-2 border rounded"
                         value={globalFilter || ''}
                         onChange={(e) => setGlobalFilter(e.target.value)}
-                        placeholder="全局搜尋..."
+                        placeholder="search..."
                     />
                 </div>
-                <table
-                    {...getTableProps()}
-                    className="crawl_datatable"
-                    id="crawl_datatable"
-                    style={{ borderCollapse: 'collapse', borderSpacing: 0, width: '100%' }}
-                >
-                    <thead>
-                    {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
-                                <th
-                                    {...column.getHeaderProps(column.getSortByToggleProps())} // 添加排序相關屬性
-                                >
-                                    {column.render('Header')}
-                                    <span>
-                                        {column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
-                                    </span>
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                    </thead>
-                    <tbody {...getTableBodyProps()}>
-                    {page.map((row) => {
-                        prepareRow(row);
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => {
-                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
-                                })}
+                <div className="table-container">
+                    <table
+                        {...getTableProps()}
+                        className="crawl_datatable"
+                        id="crawl_datatable"
+                        style={{ borderCollapse: 'collapse', borderSpacing: 0, width: '100%' }}
+                    >
+                        {/* 表头 */}
+                        <thead>
+                        {headerGroups.map((headerGroup) => (
+                            <tr {...headerGroup.getHeaderGroupProps()}>
+                                {headerGroup.headers.map((column) => (
+                                    <th
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
+                                    >
+                                        {column.render('Header')}
+                                        <span>
+                                                {column.isSorted
+                                                    ? column.isSortedDesc
+                                                        ? ' 🔽'
+                                                        : ' 🔼'
+                                                    : ''}
+                                            </span>
+                                    </th>
+                                ))}
                             </tr>
-                        );
-                    })}
-                    </tbody>
-                </table>
-                {/* 分頁控制按鈕 */}
+                        ))}
+                        </thead>
+                        {/* 表体 */}
+                        <tbody {...getTableBodyProps()}>
+                        {page.map((row) => {
+                            prepareRow(row);
+                            return (
+                                <tr {...row.getRowProps()}>
+                                    {row.cells.map((cell) => {
+                                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                                    })}
+                                </tr>
+                            );
+                        })}
+                        </tbody>
+                    </table>
+                </div>
+                {/* 分页控制按钮 */}
                 <div className="mt-4">
                     <button className="button" onClick={() => previousPage()} disabled={!canPreviousPage}>
                         previous
@@ -150,7 +156,7 @@ function CrawlDataTable({datatable_url}) {
                     <span className="spacer">
                         {'    '}
                         <strong>
-                          {pageIndex + 1} / {pageOptions.length}
+                            {pageIndex + 1} / {pageOptions.length}
                         </strong>
                         {'    '}
                     </span>
@@ -158,7 +164,6 @@ function CrawlDataTable({datatable_url}) {
                         next
                     </button>
                 </div>
-
             </div>
         </div>
     );

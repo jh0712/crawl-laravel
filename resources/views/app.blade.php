@@ -81,6 +81,22 @@
                 margin-left: 20px; /* 调整左边距以增加按钮和文本之间的空间 */
                 margin-right: 20px; /* 调整左边距以增加按钮和文本之间的空间 */
             }
+            /* 当屏幕宽度小于768px时应用以下样式 */
+            @media (max-width: 768px) {
+                .table-container {
+                    overflow-x: auto;
+                }
+                .crawl_datatable {
+                    width: 100%;
+                }
+                /* 添加其他响应式样式 */
+            }
+
+            /* 当屏幕宽度小于1024px时应用以下样式 */
+            @media (max-width: 1024px) {
+                /* 添加其他响应式样式 */
+            }
+
         </style>
 
         <!-- Scripts -->
