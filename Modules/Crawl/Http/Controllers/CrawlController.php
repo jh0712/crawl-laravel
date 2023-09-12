@@ -100,7 +100,11 @@ class CrawlController extends Controller
 
     public function success($id)
     {
-        $crawledResult = $this->crawlRepo->find($id, ['documents']);
+        $crawledResult = $this->crawlRepo->getModel()
+            ->where('id', $id)->where('user_id', auth()->user()->id)->with('documents')->first();
+        if (!$crawledResult) {
+            return redirect()->back()->with('error_message', 'no record found');
+        }
         return Inertia::render('Crawl/Success', [
             'crawledResult' => $crawledResult // 傳遞CrawledResult模型的資料給Inertia頁面
         ]);
@@ -125,8 +129,9 @@ class CrawlController extends Controller
     public function edit($id)
     {
         // show data information can edit
-        $crawledResult = $this->crawlRepo->find($id, ['documents']);
-        if(!$crawledResult){
+        $crawledResult = $this->crawlRepo->getModel()
+            ->where('id', $id)->where('user_id', auth()->user()->id)->first();
+        if (!$crawledResult) {
             return redirect()->back()->with('error_message', 'no record found');
         }
         return Inertia::render('Crawl/Edit', [
@@ -145,6 +150,11 @@ class CrawlController extends Controller
     public function update(Request $request, $id)
     {
         // update action
+        $crawledResult = $this->crawlRepo->getModel()
+            ->where('id', $id)->where('user_id', auth()->user()->id)->first();
+        if (!$crawledResult) {
+            return redirect()->back()->with('error_message', 'no record found');
+        }
         DB::beginTransaction();
         try {
             $result = $this->crawlRepo->updateData($id, $request->only(['title', 'description', 'body']));
@@ -152,9 +162,8 @@ class CrawlController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             Log::info($e);
-            return redirect()->back()->with('error_message', 'failed crawl please try again');
+            return redirect()->back()->with('error_message', 'failed updated please try again');
         }
         return redirect()->back()->with('success_message', 'successfully updated');
-        //return redirect()->route('crawl-management.crawled_result_id.success', $result['crawled_data']->id);
     }
 }
